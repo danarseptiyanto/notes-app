@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -24,4 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [NoteController::class, 'index'])->name('notes.index'); // your main page
+    Route::resource('notes', NoteController::class)->except(['index', 'create', 'edit', 'show']);
+    Route::resource('categories', CategoryController::class)->except(['show']);
+});
+
+require __DIR__ . '/auth.php';

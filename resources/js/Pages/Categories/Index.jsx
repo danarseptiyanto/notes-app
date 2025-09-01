@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
-import { useForm, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 
 export default function CategoriesIndex() {
-    const { categories } = usePage().props;
+    const { categories, flash } = usePage().props;
     const [editingId, setEditingId] = useState(null);
 
     const form = useForm({ name: "" });
@@ -17,7 +16,7 @@ export default function CategoriesIndex() {
 
     const updateCategory = (category, e) => {
         e.preventDefault();
-        Inertia.put(`/categories/${category.id}`, {
+        router.put(`/categories/${category.id}`, {
             name: e.target.name.value,
         });
         setEditingId(null);
@@ -25,14 +24,18 @@ export default function CategoriesIndex() {
 
     const deleteCategory = (category) => {
         if (confirm("Delete this category?")) {
-            Inertia.delete(`/categories/${category.id}`);
+            router.delete(`/categories/${category.id}`);
         }
     };
 
     return (
         <div className="max-w-xl mx-auto p-6">
             <h1 className="text-2xl font-bold mb-6">Categories</h1>
-
+            {flash?.error && (
+                <div className="mb-4 p-2 bg-red-100 text-red-600 rounded">
+                    {flash.error}xx
+                </div>
+            )}
             {/* Add category form */}
             <form
                 onSubmit={submit}

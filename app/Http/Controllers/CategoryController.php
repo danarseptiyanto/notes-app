@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CategoryController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
         $categories = auth()->user()
@@ -33,9 +35,11 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        // only allow owner to update
-        if ($category->user_id !== auth()->id()) {
-            abort(403);
+
+        $this->authorize('update', $category);
+
+        if ($category->name === 'General') {
+            return redirect()->back()->with('error', 'Default category cant be renamed');
         }
 
         $data = $request->validate([
@@ -49,17 +53,27 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        // protect General category if you want
-        if ($category->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorize('delete', $category);
 
         if ($category->name === 'General') {
             return redirect()->back()->with('error', 'You cannot delete the default category.');
         }
 
+        // Find the "General" category (make sure it always exists)
+        $generalCategory = Category::where('name', 'General')->first();
+
+        if (!$generalCategory) {
+            return redirect()->back()->with('error', 'General category not found. Please create one first.');
+        }
+
+        // Reassign all notes from this category to the "General" category
+        $category->notes()->update([
+            'category_id' => $generalCategory->id
+        ]);
+
+        // Now delete the category
         $category->delete();
 
-        return redirect()->back()->with('success', 'Category deleted.');
+        return redirect()->back()->with('success', 'Category deleted. Notes moved to General.');
     }
 }

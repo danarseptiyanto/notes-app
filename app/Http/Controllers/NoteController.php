@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Note; // It's good practice to import the models you use
+use App\Models\Note;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

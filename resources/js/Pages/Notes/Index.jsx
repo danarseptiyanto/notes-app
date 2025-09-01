@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Inertia } from "@inertiajs/inertia";
-import { useForm, usePage } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 
 export default function NotesIndex() {
     const { notes, categories } = usePage().props;
@@ -21,7 +20,7 @@ export default function NotesIndex() {
 
     const updateNote = (note, e) => {
         e.preventDefault();
-        Inertia.put(`/notes/${note.id}`, {
+        router.put(`/notes/${note.id}`, {
             content: e.target.content.value,
             category_id: e.target.category_id.value,
         });
@@ -30,15 +29,13 @@ export default function NotesIndex() {
 
     const deleteNote = (note) => {
         if (confirm("Delete this note?")) {
-            Inertia.delete(`/notes/${note.id}`);
+            router.delete(`/notes/${note.id}`);
         }
     };
 
     return (
         <div className="max-w-3xl mx-auto p-6">
             <h1 className="text-2xl font-bold mb-6">My Notes</h1>
-
-            {/* Add note form */}
             <form
                 onSubmit={submit}
                 className="bg-white shadow p-4 rounded-xl mb-6 space-y-3"

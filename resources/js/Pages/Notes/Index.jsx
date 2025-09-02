@@ -5,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Plus, Ellipsis } from "lucide-react";
 import Masonry from "react-masonry-css";
-import ThemeToggle from "@/Components/ThemeToggle";
 
 import {
     DropdownMenu,
@@ -102,7 +101,6 @@ export default function NotesIndex() {
                     <p className="text-gray-500">
                         Create, edit, archive, or delete your Notes in this page
                     </p>
-                    <ThemeToggle />
                 </div>
                 <div>
                     <Button className="gap-1" onClick={openCreateDialog}>
@@ -182,53 +180,65 @@ export default function NotesIndex() {
                     </form>
                 </DialogContent>
             </Dialog>
-            <Masonry
-                breakpointCols={breakpointColumnsObj}
-                className="mt-4 flex gap-4" // container
-                columnClassName="masonry-column flex flex-col gap-4" // columns
-            >
-                {notes.map((note) => (
-                    <Card key={note.id} className="group p-5">
-                        <div className="whitespace-pre-wrap text-gray-700">
-                            {note.content}
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="mt-2 text-sm text-gray-500">
-                                {note.category?.name}
-                            </div>
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        className="size-8 opacity-0 transition-opacity group-hover:opacity-100"
-                                    >
-                                        <Ellipsis />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem>
-                                        <button
-                                            onClick={() => openEditDialog(note)}
-                                        >
-                                            Edit Note
-                                        </button>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>Archive</DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <button
-                                            className="text-red-600"
-                                            onClick={() => deleteNote(note)}
-                                        >
-                                            Delete Note
-                                        </button>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
+            {notes.length === 0 ? (
+                <div className="mt-4 flex justify-center">
+                    <Card className="flex h-72 w-full items-center justify-center p-6 text-center text-lg text-gray-600">
+                        Notes you add appear here
                     </Card>
-                ))}
-            </Masonry>
+                </div>
+            ) : (
+                <Masonry
+                    breakpointCols={breakpointColumnsObj}
+                    className="mt-4 flex gap-4"
+                    columnClassName="masonry-column flex flex-col gap-4"
+                >
+                    {notes.map((note) => (
+                        <Card key={note.id} className="group p-5">
+                            <div className="whitespace-pre-wrap text-gray-700">
+                                {note.content}
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <div className="mt-2 text-sm text-gray-500">
+                                    {note.category?.name}
+                                </div>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="size-8 opacity-0 transition-opacity group-hover:opacity-100"
+                                        >
+                                            <Ellipsis />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem>
+                                            <button
+                                                onClick={() =>
+                                                    openEditDialog(note)
+                                                }
+                                            >
+                                                Edit Note
+                                            </button>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            Archive
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <button
+                                                className="text-red-600"
+                                                onClick={() => deleteNote(note)}
+                                            >
+                                                Delete Note
+                                            </button>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+                        </Card>
+                    ))}
+                </Masonry>
+            )}
         </AppLayout>
     );
 }

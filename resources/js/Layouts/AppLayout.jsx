@@ -15,7 +15,11 @@ import {
 } from "@/components/ui/sidebar";
 import ThemeToggle from "@/Components/ThemeToggle";
 
-export default function AppLayout({ children }) {
+export default function AppLayout({
+    children,
+    BreadcrumbLink1,
+    BreadcrumbLink2,
+}) {
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -30,14 +34,14 @@ export default function AppLayout({ children }) {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Building Your Application
-                                    </BreadcrumbLink>
+                                    <BreadcrumbPage>
+                                        {BreadcrumbLink1}
+                                    </BreadcrumbPage>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
                                     <BreadcrumbPage>
-                                        Data Fetching
+                                        {BreadcrumbLink2}
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>

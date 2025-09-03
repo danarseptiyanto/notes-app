@@ -60,7 +60,7 @@ export default function CategoriesIndex() {
     };
 
     return (
-        <AppLayout>
+        <AppLayout BreadcrumbLink1="Notes" BreadcrumbLink2="All Notes">
             <div className="mx-auto max-w-xl p-6">
                 <h1 className="mb-6 text-2xl font-bold">Categories</h1>
 

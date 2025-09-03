@@ -94,11 +94,11 @@ export default function NotesIndex() {
     };
 
     return (
-        <AppLayout>
+        <AppLayout BreadcrumbLink1="Notes" BreadcrumbLink2="All Notes">
             <div className="mb-7 flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold leading-tight">Notes</h1>
-                    <p className="text-gray-500">
+                    <p className="text-gray-500 dark:text-gray-300">
                         Create, edit, archive, or delete your Notes in this page
                     </p>
                 </div>
@@ -182,7 +182,7 @@ export default function NotesIndex() {
             </Dialog>
             {notes.length === 0 ? (
                 <div className="mt-4 flex justify-center">
-                    <Card className="flex h-72 w-full items-center justify-center p-6 text-center text-lg text-gray-600">
+                    <Card className="flex h-72 w-full items-center justify-center p-6 text-center text-lg text-gray-600 dark:text-gray-300">
                         Notes you add appear here
                     </Card>
                 </div>
@@ -194,11 +194,11 @@ export default function NotesIndex() {
                 >
                     {notes.map((note) => (
                         <Card key={note.id} className="group p-5">
-                            <div className="whitespace-pre-wrap text-gray-700">
+                            <div className="whitespace-pre-wrap text-gray-700 dark:text-white">
                                 {note.content}
                             </div>
                             <div className="flex items-center justify-between">
-                                <div className="mt-2 text-sm text-gray-500">
+                                <div className="mt-2 text-sm text-gray-500 dark:text-gray-300">
                                     {note.category?.name}
                                 </div>
                                 <DropdownMenu>

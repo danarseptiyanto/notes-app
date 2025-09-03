@@ -1,3 +1,4 @@
+// nav-main.jsx
 "use client";
 
 import { ChevronRight, Funnel } from "lucide-react";
@@ -22,7 +23,7 @@ import {
 export function NavMain({ items }) {
     const { userCategories } = usePage().props;
     return (
-        <SidebarGroup>
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
             <SidebarGroupLabel>Filter</SidebarGroupLabel>
             <SidebarMenu>
                 <Collapsible defaultOpen asChild className="group/collapsible">
@@ -39,7 +40,7 @@ export function NavMain({ items }) {
                                 {userCategories &&
                                     userCategories.map((category) => (
                                         <SidebarMenuSubItem key={category.id}>
-                                            <SidebarMenuSubButton>
+                                            <SidebarMenuSubButton asChild>
                                                 {/* Use Inertia's Link component for SPA navigation */}
                                                 <Link
                                                     href={`/category/${category.name}`}
@@ -50,10 +51,10 @@ export function NavMain({ items }) {
                                         </SidebarMenuSubItem>
                                     ))}
                                 <SidebarMenuSubItem>
-                                    <SidebarMenuSubButton>
-                                        <a href="#">
+                                    <SidebarMenuSubButton asChild>
+                                        <Link href="#">
                                             <span>Add new</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
                             </SidebarMenuSub>

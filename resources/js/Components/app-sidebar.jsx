@@ -1,21 +1,15 @@
 import * as React from "react";
 import {
-    AudioWaveform,
-    BookOpen,
-    Bot,
-    Command,
-    NotebookPen,
-    GalleryVerticalEnd,
-    FileSymlink,
-    ArchiveRestore,
-    Settings2,
-    SquareTerminal,
-} from "lucide-react";
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    useSidebar,
+} from "@/components/ui/sidebar";
+import { Bot, NotebookPen, FileSymlink, ArchiveRestore } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
     Sidebar,
     SidebarContent,
@@ -29,26 +23,8 @@ const data = {
     user: {
         name: "shadcn",
         email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
+        avatar: "https://ui.shadcn.com/avatars/shadcn.jpg",
     },
-    teams: [
-        {
-            name: "Acme Inc",
-            logo: GalleryVerticalEnd,
-            plan: "Enterprise",
-        },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-        {
-            name: "Evil Corp.",
-            logo: Command,
-            plan: "Free",
-        },
-    ],
-
     projects: [
         {
             name: "All Notes",
@@ -57,7 +33,7 @@ const data = {
         },
         {
             name: "Archived Notes",
-            url: "#",
+            url: "/archivednotes",
             icon: ArchiveRestore,
         },
         {
@@ -72,7 +48,21 @@ export function AppSidebar({ ...props }) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                <TeamSwitcher teams={data.teams} />
+                <SidebarMenuButton
+                    size="lg"
+                    className="text-sidebar-accent-foreground"
+                >
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                        <Bot className="size-4" />
+                    </div>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-semibold">
+                            Danar&Co.
+                        </span>
+                        <span className="truncate text-xs">Notes</span>
+                    </div>
+                    {/* <ChevronsUpDown className="ml-auto" /> */}
+                </SidebarMenuButton>
             </SidebarHeader>
             <SidebarContent>
                 <NavProjects projects={data.projects} />

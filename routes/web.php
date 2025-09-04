@@ -27,9 +27,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', [NoteController::class, 'index'])->name('notes.index'); // your main page
+    Route::get('/', [NoteController::class, 'index'])->name('notes.index');
+    Route::get('/archivednotes', [NoteController::class, 'indexarchive'])->name('notes.archived');
+    Route::put('/notes/{note}/archive', [NoteController::class, 'archive'])->name('notes.archive');
+    Route::get('/category/{category}', [NoteController::class, 'index'])->name('notes.byCategory');
     Route::resource('notes', NoteController::class)->except(['index', 'create', 'edit', 'show']);
     Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::post('/notes/{note}/unarchive', [NoteController::class, 'unarchive'])
+        ->name('notes.unarchive');
 });
 
 require __DIR__ . '/auth.php';

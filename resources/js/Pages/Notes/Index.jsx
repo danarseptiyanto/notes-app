@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/dialog";
 
 export default function NotesIndex() {
-    const { notes, categories } = usePage().props;
+    const { notes, categories, activeCategory } = usePage().props;
     const [open, setOpen] = useState(false);
     const [editingNote, setEditingNote] = useState(null);
     const textareaRef = useRef(null);
@@ -94,18 +94,29 @@ export default function NotesIndex() {
     };
 
     return (
-        <AppLayout BreadcrumbLink1="Notes" BreadcrumbLink2="All Notes">
-            <div className="mb-7 flex items-center justify-between">
+        <AppLayout
+            BreadcrumbLink1="Notes"
+            BreadcrumbLink2={
+                activeCategory ? `Notes in ${activeCategory}` : "All Notes"
+            }
+        >
+            <div className="mb-7 flex items-center justify-between gap-2">
                 <div>
-                    <h1 className="text-2xl font-bold leading-tight">Notes</h1>
-                    <p className="text-gray-500 dark:text-gray-300">
-                        Create, edit, archive, or delete your Notes in this page
+                    <h1 className="text-xl font-bold leading-tight lg:text-2xl">
+                        {activeCategory
+                            ? `Notes in ${activeCategory}`
+                            : "All Notes"}
+                    </h1>
+                    <p className="pt-1 text-sm text-gray-500 dark:text-gray-300 lg:pt-0 lg:text-base">
+                        {activeCategory
+                            ? `Only showing notes in the "${activeCategory}" category`
+                            : "Create, edit, archive, or delete your Notes in this page"}
                     </p>
                 </div>
                 <div>
                     <Button className="gap-1" onClick={openCreateDialog}>
                         <Plus className="px-0" />
-                        Add Note
+                        Add <span className="hidden md:block">Note</span>
                     </Button>
                 </div>
             </div>
@@ -222,7 +233,15 @@ export default function NotesIndex() {
                                             </button>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
-                                            Archive
+                                            <button
+                                                onClick={() =>
+                                                    router.put(
+                                                        `/notes/${note.id}/archive`,
+                                                    )
+                                                }
+                                            >
+                                                Archive
+                                            </button>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             <button

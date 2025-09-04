@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { router, useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Button } from "@/components/ui/button";
+import { Plus, Ellipsis } from "lucide-react";
 import {
     Dialog,
     DialogContent,
@@ -61,19 +62,23 @@ export default function CategoriesIndex() {
 
     return (
         <AppLayout BreadcrumbLink1="Notes" BreadcrumbLink2="All Notes">
-            <div className="mx-auto max-w-xl p-6">
-                <h1 className="mb-6 text-2xl font-bold">Categories</h1>
-
-                {flash?.error && (
-                    <div className="mb-4 rounded bg-red-100 p-2 text-red-600">
-                        {flash.error}
-                    </div>
-                )}
-
-                <Button onClick={openCreateDialog} className="mb-4">
-                    Add Category
-                </Button>
-
+            <div className="mb-7 flex items-center justify-between gap-2">
+                <div>
+                    <h1 className="text-xl font-bold leading-tight lg:text-2xl">
+                        Category
+                    </h1>
+                    <p className="pt-1 text-sm text-gray-500 dark:text-gray-300 lg:pt-0 lg:text-base">
+                        Create, edit, or delete your Categories in this page
+                    </p>
+                </div>
+                <div>
+                    <Button className="gap-1" onClick={openCreateDialog}>
+                        <Plus className="px-0" />
+                        Add <span className="hidden md:block">Category</span>
+                    </Button>
+                </div>
+            </div>
+            <div className="mx-auto">
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogContent className="max-w-md">
                         <form onSubmit={submit} className="space-y-4">

@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Note extends Model
 {
-    protected $fillable = ['user_id', 'category_id', 'content', 'pinned'];
+    protected $fillable = ['user_id', 'category_id', 'content', 'archived'];
 
     public function user()
     {

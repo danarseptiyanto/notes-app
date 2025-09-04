@@ -1,7 +1,7 @@
 // nav-main.jsx
 "use client";
 
-import { ChevronRight, Funnel } from "lucide-react";
+import { ChevronRight, Funnel, CirclePlus } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import { usePage } from "@inertiajs/react";
 import {
@@ -41,7 +41,6 @@ export function NavMain({ items }) {
                                     userCategories.map((category) => (
                                         <SidebarMenuSubItem key={category.id}>
                                             <SidebarMenuSubButton asChild>
-                                                {/* Use Inertia's Link component for SPA navigation */}
                                                 <Link
                                                     href={`/category/${category.name}`}
                                                 >
@@ -52,8 +51,11 @@ export function NavMain({ items }) {
                                     ))}
                                 <SidebarMenuSubItem>
                                     <SidebarMenuSubButton asChild>
-                                        <Link href="#">
-                                            <span>Add new</span>
+                                        <Link href="/categories">
+                                            <span className="flex items-center gap-1 font-semibold">
+                                                {/* <CirclePlus className="size-3" /> */}
+                                                Add Category +
+                                            </span>
                                         </Link>
                                     </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>

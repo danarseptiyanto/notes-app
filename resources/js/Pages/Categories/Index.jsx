@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { router, useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Button } from "@/components/ui/button";
-import { Plus, Ellipsis } from "lucide-react";
+import { Plus, PencilLine, Trash2 } from "lucide-react";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import {
     Dialog,
     DialogContent,
@@ -118,30 +119,44 @@ export default function CategoriesIndex() {
                         </form>
                     </DialogContent>
                 </Dialog>
-
-                <div className="mt-4 space-y-3">
-                    {categories.map((category) => (
-                        <div
-                            key={category.id}
-                            className="flex items-center justify-between rounded-xl bg-white p-4 shadow"
-                        >
-                            <span>{category.name}</span>
-                            <div className="flex gap-2">
-                                <Button
-                                    variant="secondary"
-                                    onClick={() => openEditDialog(category)}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    variant="destructive"
-                                    onClick={() => deleteCategory(category)}
-                                >
-                                    Delete
-                                </Button>
-                            </div>
-                        </div>
-                    ))}
+                <div className="rounded-md border">
+                    <Table>
+                        <TableBody>
+                            {categories.map((category) => (
+                                <TableRow key={category.id}>
+                                    <TableCell className="flex flex-col md:flex-row md:items-center md:justify-between">
+                                        <div className="p-2.5">
+                                            <div className="whitespace-pre-wrap pb-1">
+                                                <span className="text-base text-gray-800 dark:text-white">
+                                                    {category.name}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="inline-flex space-x-2 px-2.5">
+                                            <Button
+                                                onClick={() =>
+                                                    openEditDialog(category)
+                                                }
+                                                variant="outline"
+                                                size="sm"
+                                            >
+                                                <PencilLine className="size-3" />
+                                            </Button>
+                                            <Button
+                                                onClick={() =>
+                                                    deleteCategory(category)
+                                                }
+                                                variant="destructive"
+                                                size="sm"
+                                            >
+                                                <Trash2 className="size-3" />
+                                            </Button>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
         </AppLayout>

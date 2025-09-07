@@ -27,9 +27,15 @@ export default function IndexArchive() {
 
     return (
         <AppLayout BreadcrumbLink1="Notes" BreadcrumbLink2="Archived">
-            <div className="mb-4 flex items-center gap-2">
-                <ArchiveX className="h-5 w-5 text-gray-500" />
-                <h1 className="text-xl font-semibold">Archived Notes</h1>
+            <div className="mb-7 flex items-center justify-between gap-2">
+                <div>
+                    <h1 className="text-xl font-bold leading-tight lg:text-2xl">
+                        Archived Notes
+                    </h1>
+                    <p className="pt-1 text-sm text-gray-500 dark:text-gray-300 lg:pt-0 lg:text-base">
+                        View and manage your archived notes here
+                    </p>
+                </div>
             </div>
 
             {notes && notes.length > 0 ? (
@@ -41,12 +47,12 @@ export default function IndexArchive() {
                                     <TableCell className="flex flex-col md:flex-row md:items-center md:justify-between">
                                         <div className="p-2.5">
                                             <div className="whitespace-pre-wrap pb-1">
-                                                <span className="text-base text-gray-800">
+                                                <span className="text-base text-gray-800 dark:text-white">
                                                     {note.content}
                                                 </span>
                                             </div>
                                             {note.category && (
-                                                <div className="text-md text-gray-500">
+                                                <div className="text-md text-gray-500 dark:text-gray-300">
                                                     {note.category.name}
                                                 </div>
                                             )}

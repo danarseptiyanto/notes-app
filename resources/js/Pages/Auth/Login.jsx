@@ -1,8 +1,9 @@
-import { GalleryVerticalEnd } from "lucide-react";
+import { Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Head, Link, useForm } from "@inertiajs/react";
+import Checkbox from "@/Components/Checkbox";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -24,9 +25,9 @@ export default function Login({ status, canResetPassword }) {
                 <div className="flex justify-center gap-2 md:justify-start">
                     <a href="#" className="flex items-center gap-2 font-medium">
                         <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                            <GalleryVerticalEnd className="size-4" />
+                            <Bot className="size-4" />
                         </div>
-                        Acme Inc.
+                        Danar&Co.
                     </a>
                 </div>
                 <div className="flex flex-1 items-center justify-center">
@@ -52,7 +53,6 @@ export default function Login({ status, canResetPassword }) {
                                         value={data.email}
                                         className="mt-1 block w-full"
                                         autoComplete="username"
-                                        isFocused={true}
                                         onChange={(e) =>
                                             setData("email", e.target.value)
                                         }
@@ -87,11 +87,28 @@ export default function Login({ status, canResetPassword }) {
                                     <span className="text-sm text-red-500">
                                         {errors.password}
                                     </span>
+                                    <div className="block">
+                                        <label className="flex items-center">
+                                            <Checkbox
+                                                name="remember"
+                                                checked={data.remember}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "remember",
+                                                        e.target.checked,
+                                                    )
+                                                }
+                                            />
+                                            <span className="ms-2 text-sm">
+                                                Remember me
+                                            </span>
+                                        </label>
+                                    </div>
                                 </div>
                                 <Button type="submit" className="w-full">
                                     Login
                                 </Button>
-                                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                                {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                                     <span className="relative z-10 bg-background px-2 text-muted-foreground">
                                         Or continue with
                                     </span>
@@ -107,16 +124,16 @@ export default function Login({ status, canResetPassword }) {
                                         />
                                     </svg>
                                     Login with Google
-                                </Button>
+                                </Button> */}
                             </div>
                             <div className="text-center text-sm">
                                 Don&apos;t have an account?{" "}
-                                <a
-                                    href="#"
+                                <Link
+                                    href="/register"
                                     className="underline underline-offset-4"
                                 >
                                     Sign up
-                                </a>
+                                </Link>
                             </div>
                         </form>
                     </div>

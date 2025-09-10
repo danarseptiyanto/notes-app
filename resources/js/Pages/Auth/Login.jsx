@@ -20,95 +20,106 @@ export default function Login({ status, canResetPassword }) {
         });
     };
     return (
-        <div className="grid min-h-svh lg:grid-cols-2">
-            <div className="flex flex-col gap-4 p-6 md:p-10">
-                <div className="flex justify-center gap-2 md:justify-start">
-                    <a href="#" className="flex items-center gap-2 font-medium">
-                        <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                            <Bot className="size-4" />
-                        </div>
-                        Danar&Co.
-                    </a>
-                </div>
-                <div className="flex flex-1 items-center justify-center">
-                    <div className="w-full max-w-xs">
-                        <form className="flex flex-col gap-6" onSubmit={submit}>
-                            <div className="flex flex-col items-center gap-2 text-center">
-                                <h1 className="text-2xl font-bold">
-                                    Login to your account
-                                </h1>
-                                <p className="text-balance text-sm text-muted-foreground">
-                                    Enter your email below to login to your
-                                    account
-                                </p>
+        <>
+            <Head title="Log in" />
+            <div className="grid min-h-svh lg:grid-cols-2">
+                <div className="flex flex-col gap-4 p-6 md:p-10">
+                    <div className="flex justify-center gap-2 md:justify-start">
+                        <a
+                            href="#"
+                            className="flex items-center gap-2 font-medium"
+                        >
+                            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                                <Bot className="size-4" />
                             </div>
+                            Danar&Co.
+                        </a>
+                    </div>
+                    <div className="flex flex-1 items-center justify-center">
+                        <div className="w-full max-w-xs">
+                            <form
+                                className="flex flex-col gap-6"
+                                onSubmit={submit}
+                            >
+                                <div className="flex flex-col items-center gap-2 text-center">
+                                    <h1 className="text-2xl font-bold">
+                                        Login to your account
+                                    </h1>
+                                    <p className="text-balance text-sm text-muted-foreground">
+                                        Enter your email below to login to your
+                                        account
+                                    </p>
+                                </div>
 
-                            <div className="grid gap-6">
-                                <div className="grid gap-2">
-                                    <Label htmlFor="email">Email</Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        name="email"
-                                        value={data.email}
-                                        className="mt-1 block w-full"
-                                        autoComplete="username"
-                                        onChange={(e) =>
-                                            setData("email", e.target.value)
-                                        }
-                                    />
-                                    <span className="text-sm text-red-500">
-                                        {errors.email}
-                                    </span>
-                                </div>
-                                <div className="grid gap-2">
-                                    <div className="flex items-center">
-                                        <Label htmlFor="password">
-                                            Password
-                                        </Label>
-                                        <Link
-                                            href={route("password.request")}
-                                            className="ml-auto text-sm underline-offset-4 hover:underline"
-                                        >
-                                            Forgot your password?
-                                        </Link>
+                                <div className="grid gap-6">
+                                    <div className="grid gap-2">
+                                        <Label htmlFor="email">Email</Label>
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            name="email"
+                                            value={data.email}
+                                            className="mt-1 block w-full"
+                                            autoComplete="username"
+                                            onChange={(e) =>
+                                                setData("email", e.target.value)
+                                            }
+                                        />
+                                        <span className="text-sm text-red-500">
+                                            {errors.email}
+                                        </span>
                                     </div>
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        name="password"
-                                        value={data.password}
-                                        className="mt-1 block w-full"
-                                        autoComplete="current-password"
-                                        onChange={(e) =>
-                                            setData("password", e.target.value)
-                                        }
-                                    />
-                                    <span className="text-sm text-red-500">
-                                        {errors.password}
-                                    </span>
-                                    <div className="block">
-                                        <label className="flex items-center">
-                                            <Checkbox
-                                                name="remember"
-                                                checked={data.remember}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "remember",
-                                                        e.target.checked,
-                                                    )
-                                                }
-                                            />
-                                            <span className="ms-2 text-sm">
-                                                Remember me
-                                            </span>
-                                        </label>
+                                    <div className="grid gap-2">
+                                        <div className="flex items-center">
+                                            <Label htmlFor="password">
+                                                Password
+                                            </Label>
+                                            <Link
+                                                href={route("password.request")}
+                                                className="ml-auto text-sm underline-offset-4 hover:underline"
+                                            >
+                                                Forgot your password?
+                                            </Link>
+                                        </div>
+                                        <Input
+                                            id="password"
+                                            type="password"
+                                            name="password"
+                                            value={data.password}
+                                            className="mt-1 block w-full"
+                                            autoComplete="current-password"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "password",
+                                                    e.target.value,
+                                                )
+                                            }
+                                        />
+                                        <span className="text-sm text-red-500">
+                                            {errors.password}
+                                        </span>
+                                        <div className="block">
+                                            <label className="flex items-center">
+                                                <Checkbox
+                                                    name="remember"
+                                                    checked={data.remember}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "remember",
+                                                            e.target.checked,
+                                                        )
+                                                    }
+                                                />
+                                                <span className="ms-2 text-sm">
+                                                    Remember me
+                                                </span>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <Button type="submit" className="w-full">
-                                    Login
-                                </Button>
-                                {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                                    <Button type="submit" className="w-full">
+                                        Login
+                                    </Button>
+                                    {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                                     <span className="relative z-10 bg-background px-2 text-muted-foreground">
                                         Or continue with
                                     </span>
@@ -125,28 +136,29 @@ export default function Login({ status, canResetPassword }) {
                                     </svg>
                                     Login with Google
                                 </Button> */}
-                            </div>
-                            <div className="text-center text-sm">
-                                Don&apos;t have an account?{" "}
-                                <Link
-                                    href="/register"
-                                    className="underline underline-offset-4"
-                                >
-                                    Sign up
-                                </Link>
-                            </div>
-                        </form>
+                                </div>
+                                <div className="text-center text-sm">
+                                    Don&apos;t have an account?{" "}
+                                    <Link
+                                        href="/register"
+                                        className="underline underline-offset-4"
+                                    >
+                                        Sign up
+                                    </Link>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
+                <div className="relative hidden bg-muted lg:block">
+                    {/* <img
+                        src="https://ui.shadcn.com/placeholder.svg"
+                        alt="Image"
+                        className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                    /> */}
+                </div>
             </div>
-            <div className="relative hidden bg-muted lg:block">
-                <img
-                    src="https://ui.shadcn.com/placeholder.svg"
-                    alt="Image"
-                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                />
-            </div>
-        </div>
+        </>
     );
 }
 

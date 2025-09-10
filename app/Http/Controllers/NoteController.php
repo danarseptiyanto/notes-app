@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use Inertia\Inertia;
 use App\Models\Category;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -60,6 +61,9 @@ class NoteController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
+        // Encrypt the content before saving
+        $data['content'] = Crypt::encryptString($data['content']);
+
         $note = auth()->user()->notes()->create($data);
 
         return redirect()->back()->with('success', 'Note created');
@@ -73,6 +77,9 @@ class NoteController extends Controller
             'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
+
+        // Encrypt before updating
+        $data['content'] = Crypt::encryptString($data['content']);
 
         $note->update($data);
 

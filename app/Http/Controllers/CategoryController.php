@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CategoryController extends Controller
 {
     use AuthorizesRequests;
+
     public function index()
     {
         $categories = auth()->user()
@@ -28,6 +30,9 @@ class CategoryController extends Controller
             'name' => 'required|string|max:100',
         ]);
 
+        // Encrypt category name
+        $data['name'] = Crypt::encryptString($data['name']);
+
         auth()->user()->categories()->create($data);
 
         return redirect()->back()->with('success', 'Category created.');
@@ -35,7 +40,6 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-
         $this->authorize('update', $category);
 
         if ($category->name === 'General') {
@@ -45,6 +49,9 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:100',
         ]);
+
+        // Encrypt category name
+        $data['name'] = Crypt::encryptString($data['name']);
 
         $category->update($data);
 
@@ -59,8 +66,9 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'You cannot delete the default category.');
         }
 
-        // Find the "General" category (make sure it always exists)
-        $generalCategory = Category::where('name', 'General')->first();
+        // Find the "General" category (encrypted in DB)
+        $encryptedGeneral = Crypt::encryptString('General');
+        $generalCategory = Category::where('name', $encryptedGeneral)->first();
 
         if (!$generalCategory) {
             return redirect()->back()->with('error', 'General category not found. Please create one first.');

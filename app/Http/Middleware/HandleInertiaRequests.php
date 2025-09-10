@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Category;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -29,15 +30,25 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
-            ...parent::share($request),
+        // Fetch the user's categories only if a user is authenticated.
+        $userCategories = null;
+        if ($request->user()) {
+            $userCategories = $request->user()
+                ->categories()
+                ->orderBy('id')
+                ->get();
+        }
+
+        return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
             ],
+            // Conditionally share the user's categories.
+            'userCategories' => $userCategories,
             'flash' => [
                 'success' => fn() => $request->session()->get('success'),
                 'error'   => fn() => $request->session()->get('error'),
             ],
-        ];
+        ]);
     }
 }

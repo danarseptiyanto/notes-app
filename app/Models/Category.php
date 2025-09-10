@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -31,6 +32,15 @@ class Category extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getNameAttribute($value)
+    {
+        try {
+            return Crypt::decryptString($value);
+        } catch (\Throwable $e) {
+            return $value; // fallback if value wasn't encrypted
+        }
     }
 
     public function notes()

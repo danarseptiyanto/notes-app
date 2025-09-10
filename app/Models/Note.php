@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,7 +30,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Note extends Model
 {
-    protected $fillable = ['user_id', 'category_id', 'content', 'pinned'];
+    protected $fillable = ['user_id', 'category_id', 'content', 'archived'];
+
+    public function getContentAttribute($value)
+    {
+        return Crypt::decryptString($value);
+    }
 
     public function user()
     {

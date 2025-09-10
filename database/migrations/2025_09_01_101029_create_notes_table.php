@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->text('content');
-            $table->boolean('pinned')->default(false); // optional
+            $table->boolean('archived')->default(false);
             $table->timestamps();
         });
     }

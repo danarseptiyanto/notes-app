@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Plus, Ellipsis } from "lucide-react";
 import Masonry from "react-masonry-css";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 import {
     DropdownMenu,
@@ -26,16 +27,81 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+} from "@/components/ui/drawer";
+
+// Reusable form component for both Dialog and Drawer
+function NoteForm({ form, categories, editingNote, onSubmit, className }) {
+    const textareaRef = useRef(null);
+
+    return (
+        <form onSubmit={onSubmit} className={className}>
+            <div className="space-y-1">
+                <Label htmlFor="content">Note</Label>
+                <Textarea
+                    id="content"
+                    rows={0}
+                    ref={textareaRef}
+                    value={form.data.content}
+                    onChange={(e) => form.setData("content", e.target.value)}
+                    onInput={(e) => {
+                        const el = e.currentTarget;
+                        el.style.height = "auto";
+                        el.style.height = el.scrollHeight + "px";
+                    }}
+                    className="min-h-44"
+                    placeholder="Write your note..."
+                />
+            </div>
+
+            <div className="space-y-1">
+                <Label htmlFor="category">Category</Label>
+                <Select
+                    id="category"
+                    value={form.data.category_id?.toString()}
+                    onValueChange={(value) =>
+                        form.setData("category_id", value)
+                    }
+                >
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {categories.map((c) => (
+                            <SelectItem key={c.id} value={c.id.toString()}>
+                                {c.name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+
+            <Button
+                type="submit"
+                disabled={form.processing}
+                className="mt-4 w-full"
+            >
+                {editingNote ? "Save Changes" : "Add Note"}
+            </Button>
+        </form>
+    );
+}
 
 export default function NotesIndex() {
     const { notes, categories, activeCategory } = usePage().props;
     const [open, setOpen] = useState(false);
     const [editingNote, setEditingNote] = useState(null);
-    const textareaRef = useRef(null);
+    const isDesktop = useMediaQuery("(min-width: 768px)");
 
     const breakpointColumnsObj = {
         default: 4, // 3 columns desktop
@@ -120,12 +186,14 @@ export default function NotesIndex() {
                     </Button>
                 </div>
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent
-                    className="max-w-md"
-                    onOpenAutoFocus={(event) => event.preventDefault()}
-                >
-                    <form onSubmit={submit} className="space-y-2">
+
+            {/* Responsive Dialog/Drawer */}
+            {isDesktop ? (
+                <Dialog open={open} onOpenChange={setOpen}>
+                    <DialogContent
+                        className="max-w-md"
+                        onOpenAutoFocus={(event) => event.preventDefault()}
+                    >
                         <DialogHeader>
                             <DialogTitle>
                                 {editingNote ? "Edit Note" : "Add Note"}
@@ -135,62 +203,45 @@ export default function NotesIndex() {
                                     ? "Edit the note or the category attached to it"
                                     : "Add new note and the category to which it belongs"}
                             </DialogDescription>
-
-                            <div className="mt-1 space-y-1">
-                                <Label htmlFor="content">Note</Label>
-                                <Textarea
-                                    id="content"
-                                    rows={0}
-                                    ref={textareaRef}
-                                    value={form.data.content}
-                                    onChange={(e) =>
-                                        form.setData("content", e.target.value)
-                                    }
-                                    onInput={(e) => {
-                                        const el = e.currentTarget;
-                                        el.style.height = "auto";
-                                        el.style.height =
-                                            el.scrollHeight + "px";
-                                    }}
-                                    className="min-h-44"
-                                    placeholder="Write your note..."
-                                />
-                            </div>
-
-                            <div className="space-y-1">
-                                <Label htmlFor="category">Category</Label>
-                                <Select
-                                    id="category"
-                                    value={form.data.category_id?.toString()}
-                                    onValueChange={(value) =>
-                                        form.setData("category_id", value)
-                                    }
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select category" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {categories.map((c) => (
-                                            <SelectItem
-                                                key={c.id}
-                                                value={c.id.toString()}
-                                            >
-                                                {c.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
                         </DialogHeader>
+                        <NoteForm
+                            form={form}
+                            categories={categories}
+                            editingNote={editingNote}
+                            onSubmit={submit}
+                            className="space-y-2"
+                        />
+                    </DialogContent>
+                </Dialog>
+            ) : (
+                <Drawer open={open} onOpenChange={setOpen}>
+                    <DrawerContent>
+                        <DrawerHeader className="text-left">
+                            <DrawerTitle>
+                                {editingNote ? "Edit Note" : "Add Note"}
+                            </DrawerTitle>
+                            <DrawerDescription>
+                                {editingNote
+                                    ? "Edit the note or the category attached to it"
+                                    : "Add new note and the category to which it belongs"}
+                            </DrawerDescription>
+                        </DrawerHeader>
+                        <NoteForm
+                            form={form}
+                            categories={categories}
+                            editingNote={editingNote}
+                            onSubmit={submit}
+                            className="space-y-2 px-4"
+                        />
+                        <DrawerFooter className="pt-2">
+                            <DrawerClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                            </DrawerClose>
+                        </DrawerFooter>
+                    </DrawerContent>
+                </Drawer>
+            )}
 
-                        <DialogFooter className="pt-1">
-                            <Button type="submit" disabled={form.processing}>
-                                {editingNote ? "Save Changes" : "Add Note"}
-                            </Button>
-                        </DialogFooter>
-                    </form>
-                </DialogContent>
-            </Dialog>
             {notes.length === 0 ? (
                 <div className="mt-4 flex justify-center">
                     <Card className="flex h-72 w-full items-center justify-center p-6 text-center text-lg text-gray-600 dark:text-gray-300">

@@ -17,7 +17,8 @@ class NoteController extends Controller
         $user = $request->user();
 
         // eager load categories
-        $categories = $user->categories()->orderBy('name')->get();
+        // eager load categories and sort by name (decrypted)
+        $categories = $user->categories->sortBy('name')->values();
 
         $notesQuery = $user->notes()
             ->with('category')
@@ -25,9 +26,14 @@ class NoteController extends Controller
             ->latest();
 
         if ($categoryName) {
-            $category = $user->categories()
-                ->where('name', $categoryName)
-                ->firstOrFail();
+            // Find category from the already loaded collection
+            $category = $categories->first(function ($cat) use ($categoryName) {
+                return $cat->name === $categoryName;
+            });
+
+            if (! $category) {
+                abort(404);
+            }
 
             $notesQuery->where('category_id', $category->id);
         }
@@ -96,10 +102,14 @@ class NoteController extends Controller
     {
         $user = $request->user();
 
-        // Make sure category belongs to the authenticated user
-        $category = Category::where('name', $categoryName)
-            ->where('user_id', $user->id)
-            ->firstOrFail();
+        // We must iterate because names are encrypted
+        $category = $user->categories->first(function ($cat) use ($categoryName) {
+            return $cat->name === $categoryName;
+        });
+
+        if (! $category) {
+            abort(404);
+        }
 
         // Get notes for this category belonging to this user
         $notes = $user->notes()

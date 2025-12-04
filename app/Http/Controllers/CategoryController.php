@@ -15,9 +15,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = auth()->user()
-            ->categories()
-            ->orderBy('name')
-            ->get();
+            ->categories
+            ->sortBy('name')
+            ->values();
 
         return Inertia::render('Categories/Index', [
             'categories' => $categories,
@@ -67,8 +67,9 @@ class CategoryController extends Controller
         }
 
         // Find the "General" category (encrypted in DB)
-        $encryptedGeneral = Crypt::encryptString('General');
-        $generalCategory = Category::where('name', $encryptedGeneral)->first();
+        $generalCategory = auth()->user()->categories->first(function ($cat) {
+            return $cat->name === 'General';
+        });
 
         if (!$generalCategory) {
             return redirect()->back()->with('error', 'General category not found. Please create one first.');

@@ -23,7 +23,7 @@ class NoteController extends Controller
         $notesQuery = $user->notes()
             ->with('category')
             ->where('archived', false)
-            ->latest();
+            ->latest('updated_at');
 
         if ($categoryName) {
             // Find category from the already loaded collection
@@ -53,7 +53,7 @@ class NoteController extends Controller
         $notes = $user->notes()
             ->with('category')
             ->where('archived', true)
-            ->latest()
+            ->latest('updated_at')
             ->get();;
         return Inertia::render('Notes/IndexArchive', [
             'notes' => $notes

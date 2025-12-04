@@ -40,10 +40,19 @@ class NoteController extends Controller
 
         $notes = $notesQuery->get();
 
+        // Handle search query
+        $search = $request->input('search');
+        if ($search) {
+            $notes = $notes->filter(function ($note) use ($search) {
+                return stripos($note->content, $search) !== false;
+            })->values();
+        }
+
         return Inertia::render('Notes/Index', [
             'notes' => $notes,
             'categories' => $categories,
             'activeCategory' => $categoryName,
+            'search' => $search,
         ]);
     }
 
@@ -54,9 +63,19 @@ class NoteController extends Controller
             ->with('category')
             ->where('archived', true)
             ->latest('updated_at')
-            ->get();;
+            ->get();
+
+        // Handle search query
+        $search = $request->input('search');
+        if ($search) {
+            $notes = $notes->filter(function ($note) use ($search) {
+                return stripos($note->content, $search) !== false;
+            })->values();
+        }
+
         return Inertia::render('Notes/IndexArchive', [
-            'notes' => $notes
+            'notes' => $notes,
+            'search' => $search,
         ]);
     }
 
@@ -116,9 +135,18 @@ class NoteController extends Controller
             ->where('category_id', $category->id)
             ->get();
 
+        // Handle search query
+        $search = $request->input('search');
+        if ($search) {
+            $notes = $notes->filter(function ($note) use ($search) {
+                return stripos($note->content, $search) !== false;
+            })->values();
+        }
+
         return Inertia::render('Notes/Filter', [
             'category' => $category,
             'notes' => $notes,
+            'search' => $search,
         ]);
     }
 

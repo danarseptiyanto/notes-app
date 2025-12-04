@@ -13,7 +13,7 @@ import {
 import { ArchiveRestore, ArchiveX, Trash2 } from "lucide-react";
 
 export default function IndexArchive() {
-    const { notes } = usePage().props;
+    const { notes, search } = usePage().props;
 
     const handleUnarchive = (id) => {
         router.post(route("notes.unarchive", id));
@@ -25,15 +25,27 @@ export default function IndexArchive() {
         }
     };
 
+    // Generate page title and description based on search
+    const getPageTitle = () => {
+        return search ? "Search results in Archived Notes" : "Archived Notes";
+    };
+
+    const getPageDescription = () => {
+        if (search) {
+            return `Found ${notes.length} archived note${notes.length !== 1 ? "s" : ""} matching "${search}"`;
+        }
+        return "View and manage your archived notes here";
+    };
+
     return (
         <AppLayout BreadcrumbLink1="Notes" BreadcrumbLink2="Archived">
             <div className="mb-7 flex items-center justify-between gap-2">
                 <div>
                     <h1 className="text-xl font-bold leading-tight lg:text-2xl">
-                        Archived Notes
+                        {getPageTitle()}
                     </h1>
                     <p className="pt-1 text-sm text-gray-500 dark:text-gray-300 lg:pt-0 lg:text-base">
-                        View and manage your archived notes here
+                        {getPageDescription()}
                     </p>
                 </div>
             </div>

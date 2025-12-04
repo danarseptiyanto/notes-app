@@ -59,7 +59,7 @@ function NoteForm({ form, categories, editingNote, onSubmit, className }) {
                         el.style.height = "auto";
                         el.style.height = el.scrollHeight + "px";
                     }}
-                    className="min-h-44"
+                    className="min-h-44 md:min-h-64"
                     placeholder="Write your note..."
                 />
             </div>
@@ -98,7 +98,7 @@ function NoteForm({ form, categories, editingNote, onSubmit, className }) {
 }
 
 export default function NotesIndex() {
-    const { notes, categories, activeCategory } = usePage().props;
+    const { notes, categories, activeCategory, search } = usePage().props;
     const [open, setOpen] = useState(false);
     const [editingNote, setEditingNote] = useState(null);
     const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -159,6 +159,25 @@ export default function NotesIndex() {
         setOpen(true);
     };
 
+    // Generate page title and description based on search and category
+    const getPageTitle = () => {
+        if (search) {
+            return activeCategory
+                ? `Search results in ${activeCategory}`
+                : "Search results";
+        }
+        return activeCategory ? `Notes in ${activeCategory}` : "All Notes";
+    };
+
+    const getPageDescription = () => {
+        if (search) {
+            return `Found ${notes.length} note${notes.length !== 1 ? "s" : ""} matching "${search}"`;
+        }
+        return activeCategory
+            ? `Only showing notes in the "${activeCategory}" category`
+            : "Create, edit, archive, or delete your Notes in this page";
+    };
+
     return (
         <AppLayout
             BreadcrumbLink1="Notes"
@@ -169,14 +188,10 @@ export default function NotesIndex() {
             <div className="mb-7 flex items-center justify-between gap-2">
                 <div>
                     <h1 className="text-xl font-bold leading-tight lg:text-2xl">
-                        {activeCategory
-                            ? `Notes in ${activeCategory}`
-                            : "All Notes"}
+                        {getPageTitle()}
                     </h1>
                     <p className="pt-1 text-sm text-gray-500 dark:text-gray-300 lg:pt-0 lg:text-base">
-                        {activeCategory
-                            ? `Only showing notes in the "${activeCategory}" category`
-                            : "Create, edit, archive, or delete your Notes in this page"}
+                        {getPageDescription()}
                     </p>
                 </div>
                 <div>
@@ -191,7 +206,7 @@ export default function NotesIndex() {
             {isDesktop ? (
                 <Dialog open={open} onOpenChange={setOpen}>
                     <DialogContent
-                        className="max-w-md"
+                        className="max-w-2xl"
                         onOpenAutoFocus={(event) => event.preventDefault()}
                     >
                         <DialogHeader>

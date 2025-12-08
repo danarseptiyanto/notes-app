@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [NoteController::class, 'index'])->name('notes.index');
     Route::get('/archivednotes', [NoteController::class, 'indexarchive'])->name('notes.archived');
     Route::put('/notes/{note}/archive', [NoteController::class, 'archive'])->name('notes.archive');
+    Route::put('/notes/{note}/pin', [NoteController::class, 'pin'])->name('notes.pin');
     Route::get('/category/{category}', [NoteController::class, 'index'])->name('notes.byCategory');
     Route::resource('notes', NoteController::class)->except(['index', 'create', 'edit', 'show']);
     Route::resource('categories', CategoryController::class)->except(['show']);

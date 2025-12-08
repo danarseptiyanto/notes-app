@@ -3,7 +3,7 @@ import { router, useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Plus, Ellipsis } from "lucide-react";
+import { Plus, Ellipsis, Pin, PinOff } from "lucide-react";
 import Masonry from "react-masonry-css";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
@@ -63,7 +63,6 @@ function NoteForm({ form, categories, editingNote, onSubmit, className }) {
                     placeholder="Write your note..."
                 />
             </div>
-
             <div className="space-y-1">
                 <Label htmlFor="category">Category</Label>
                 <Select
@@ -102,6 +101,9 @@ export default function NotesIndex() {
     const [open, setOpen] = useState(false);
     const [editingNote, setEditingNote] = useState(null);
     const isDesktop = useMediaQuery("(min-width: 768px)");
+
+    const pinnedNotes = notes.filter(note => note.pinned);
+    const unpinnedNotes = notes.filter(note => !note.pinned);
 
     const breakpointColumnsObj = {
         default: 4, // 3 columns desktop
@@ -177,6 +179,70 @@ export default function NotesIndex() {
             ? `Only showing notes in the "${activeCategory}" category`
             : "Create, edit, archive, or delete your Notes in this page";
     };
+
+    const renderNote = (note) => (
+        <Card key={note.id} className="group p-5">
+            <div className="whitespace-pre-wrap text-gray-700 dark:text-white">
+                {note.content}
+            </div>
+            <div className="flex items-center justify-between">
+                <div className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+                    {note.category?.name}
+                </div>
+                <div className="flex items-center gap-1">
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="size-8 opacity-0 transition-opacity group-hover:opacity-100"
+                        onClick={() => router.put(`/notes/${note.id}/pin`)}
+                    >
+                        {note.pinned ? <PinOff className="size-4" /> : <Pin className="size-4" />}
+                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="size-8 opacity-0 transition-opacity group-hover:opacity-100"
+                            >
+                                <Ellipsis />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem>
+                                <button
+                                    onClick={() =>
+                                        openEditDialog(note)
+                                    }
+                                >
+                                    Edit Note
+                                </button>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <button
+                                    onClick={() =>
+                                        router.put(
+                                            `/notes/${note.id}/archive`,
+                                        )
+                                    }
+                                >
+                                    Archive
+                                </button>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <button
+                                    className="text-red-600"
+                                    onClick={() => deleteNote(note)}
+                                >
+                                    Delete Note
+                                </button>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+            </div>
+        </Card>
+    );
 
     return (
         <AppLayout
@@ -264,65 +330,32 @@ export default function NotesIndex() {
                     </Card>
                 </div>
             ) : (
-                <Masonry
-                    breakpointCols={breakpointColumnsObj}
-                    className="mt-4 flex gap-4"
-                    columnClassName="masonry-column flex flex-col gap-4"
-                >
-                    {notes.map((note) => (
-                        <Card key={note.id} className="group p-5">
-                            <div className="whitespace-pre-wrap text-gray-700 dark:text-white">
-                                {note.content}
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <div className="mt-2 text-sm text-gray-500 dark:text-gray-300">
-                                    {note.category?.name}
-                                </div>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
-                                            className="size-8 opacity-0 transition-opacity group-hover:opacity-100"
-                                        >
-                                            <Ellipsis />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuItem>
-                                            <button
-                                                onClick={() =>
-                                                    openEditDialog(note)
-                                                }
-                                            >
-                                                Edit Note
-                                            </button>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            <button
-                                                onClick={() =>
-                                                    router.put(
-                                                        `/notes/${note.id}/archive`,
-                                                    )
-                                                }
-                                            >
-                                                Archive
-                                            </button>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            <button
-                                                className="text-red-600"
-                                                onClick={() => deleteNote(note)}
-                                            >
-                                                Delete Note
-                                            </button>
-                                        </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </div>
-                        </Card>
-                    ))}
-                </Masonry>
+                <div className="mt-4 space-y-8">
+                    {pinnedNotes.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-semibold mb-4">Pinned Notes</h3>
+                            <Masonry
+                                breakpointCols={breakpointColumnsObj}
+                                className="flex gap-4"
+                                columnClassName="masonry-column flex flex-col gap-4"
+                            >
+                                {pinnedNotes.map(renderNote)}
+                            </Masonry>
+                        </div>
+                    )}
+                    {unpinnedNotes.length > 0 && (
+                        <div>
+                            <h3 className="text-lg font-semibold mb-4">Notes</h3>
+                            <Masonry
+                                breakpointCols={breakpointColumnsObj}
+                                className="flex gap-4"
+                                columnClassName="masonry-column flex flex-col gap-4"
+                            >
+                                {unpinnedNotes.map(renderNote)}
+                            </Masonry>
+                        </div>
+                    )}
+                </div>
             )}
         </AppLayout>
     );

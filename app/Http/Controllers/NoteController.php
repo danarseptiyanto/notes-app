@@ -23,6 +23,7 @@ class NoteController extends Controller
         $notesQuery = $user->notes()
             ->with('category')
             ->where('archived', false)
+            ->orderBy('pinned', 'desc')
             ->latest('updated_at');
 
         if ($categoryName) {
@@ -162,5 +163,13 @@ class NoteController extends Controller
         $note->update(['archived' => false]);
 
         return back()->with('success', 'Note Unarchived!');
+    }
+
+    public function pin(Note $note)
+    {
+        $this->authorize('update', $note);
+        $note->update(['pinned' => !$note->pinned]);
+
+        return back()->with('success', 'Note ' . ($note->pinned ? 'pinned' : 'unpinned') . '!');
     }
 }

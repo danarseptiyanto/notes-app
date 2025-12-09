@@ -74,11 +74,11 @@ export default function CategoryShow() {
                 <Masonry
                     breakpointCols={breakpointColumnsObj}
                     className="mt-4 flex gap-4"
-                    columnClassName="masonry-column flex flex-col gap-4"
+                    columnClassName="masonry-column flex flex-col gap-3 md:gap-4"
                 >
                     {notes.map((note) => (
-                        <Card key={note.id} className="group p-5">
-                            <div className="whitespace-pre-wrap text-gray-700 dark:text-white">
+                        <Card key={note.id} className="group p-4 md:p-5">
+                            <div className="whitespace-pre-wrap text-sm text-gray-700 dark:text-white md:text-base">
                                 {note.content}
                             </div>
                             <div className="flex items-center justify-between">

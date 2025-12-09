@@ -98,16 +98,16 @@ export default function AppLayout({
                             <SidebarTrigger className="-ml-1" />
                             <Separator
                                 orientation="vertical"
-                                className="mr-2 data-[orientation=vertical]:h-4"
+                                className="mr-2 hidden data-[orientation=vertical]:h-4 md:block"
                             />
-                            <Breadcrumb>
+                            <Breadcrumb className="hidden md:block">
                                 <BreadcrumbList>
-                                    <BreadcrumbItem className="hidden md:block">
+                                    <BreadcrumbItem>
                                         <BreadcrumbPage>
                                             {BreadcrumbLink1}
                                         </BreadcrumbPage>
                                     </BreadcrumbItem>
-                                    <BreadcrumbSeparator className="hidden md:block" />
+                                    <BreadcrumbSeparator />
                                     <BreadcrumbItem>
                                         <BreadcrumbPage>
                                             {BreadcrumbLink2}
@@ -116,13 +116,13 @@ export default function AppLayout({
                                 </BreadcrumbList>
                             </Breadcrumb>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="relative hidden md:block">
-                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <div className="-mr-1 flex w-full items-center gap-0.5 md:w-fit">
+                            <div className="relative w-full">
+                                <Search className="w-3.h-3.5 absolute left-2 top-2.5 h-3.5 text-muted-foreground" />
                                 <Input
                                     type="search"
                                     placeholder="Search notes..."
-                                    className="w-64 pl-8 pr-8"
+                                    className="h-9 w-full rounded-full pl-8 pr-8 text-sm md:w-64"
                                     value={searchQuery}
                                     onChange={(e) =>
                                         handleSearchChange(e.target.value)

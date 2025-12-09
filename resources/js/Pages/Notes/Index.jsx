@@ -4,6 +4,7 @@ import AppLayout from "@/Layouts/AppLayout";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Plus, Ellipsis, Pin, PinOff } from "lucide-react";
+import NoteDetailModal from "@/components/NoteDetailModal";
 import Masonry from "react-masonry-css";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
@@ -107,6 +108,8 @@ export default function NotesIndex() {
     const { notes, categories, activeCategory, search } = usePage().props;
     const [open, setOpen] = useState(false);
     const [editingNote, setEditingNote] = useState(null);
+    const [selectedNote, setSelectedNote] = useState(null);
+    const [detailOpen, setDetailOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     const pinnedNotes = notes.filter((note) => note.pinned);
@@ -187,9 +190,17 @@ export default function NotesIndex() {
             : "Create, edit, archive, or delete your Notes in this page";
     };
 
+    const openDetailModal = (note) => {
+        setSelectedNote(note);
+        setDetailOpen(true);
+    };
+
     const renderNote = (note) => (
         <Card key={note.id} className="group p-4 md:p-5">
-            <div className="whitespace-pre-wrap text-sm text-gray-700 dark:text-white md:text-base">
+            <div
+                className="cursor-pointer whitespace-pre-wrap text-sm text-gray-700 dark:text-white md:text-base"
+                onClick={() => openDetailModal(note)}
+            >
                 {note.content}
             </div>
             <div className="flex items-center justify-between">
@@ -322,6 +333,14 @@ export default function NotesIndex() {
                     </DrawerContent>
                 </Drawer>
             )}
+
+            {/* Note Detail Modal */}
+            <NoteDetailModal
+                note={selectedNote}
+                open={detailOpen}
+                onOpenChange={setDetailOpen}
+                onEdit={openEditDialog}
+            />
 
             {notes.length === 0 ? (
                 <div className="mt-4 flex justify-center">

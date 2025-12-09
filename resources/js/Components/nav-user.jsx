@@ -8,6 +8,7 @@ import {
     CreditCard,
     LogOut,
     Sparkles,
+    User,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -45,8 +46,8 @@ export function NavUser({}) {
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
                                 <AvatarImage src="#" alt="#" />
-                                <AvatarFallback className="rounded-lg bg-gray-200 dark:bg-gray-800">
-                                    <Sparkles className="p-1" />
+                                <AvatarFallback className="rounded-lg bg-primary/20">
+                                    <User className="p-1 text-primary" />
                                 </AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
@@ -70,8 +71,8 @@ export function NavUser({}) {
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
                                     <AvatarImage src="#" />
-                                    <AvatarFallback className="rounded-lg bg-gray-200 dark:bg-gray-800">
-                                        <Sparkles className="p-1" />
+                                    <AvatarFallback className="rounded-lg bg-blue-200 dark:bg-blue-700/20">
+                                        <User className="p-1 text-blue-700" />
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">

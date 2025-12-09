@@ -198,7 +198,7 @@ export default function NotesIndex() {
     const renderNote = (note) => (
         <Card key={note.id} className="group p-4 md:p-5">
             <div
-                className="cursor-pointer whitespace-pre-wrap text-sm text-gray-700 dark:text-white md:text-base"
+                className="line-clamp-[10] cursor-pointer whitespace-pre-wrap text-sm text-gray-700 dark:text-white md:text-base"
                 onClick={() => openDetailModal(note)}
             >
                 {note.content}
@@ -267,6 +267,12 @@ export default function NotesIndex() {
                 activeCategory ? `Notes in ${activeCategory}` : "All Notes"
             }
         >
+            <button
+                className="fixed bottom-7 right-7 z-50 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-700 text-white shadow-md md:hidden"
+                onClick={openCreateDialog}
+            >
+                <Plus />
+            </button>
             <div className="mb-7 flex items-center justify-between gap-2">
                 <div>
                     <h1 className="text-xl font-bold leading-tight lg:text-2xl">
@@ -277,9 +283,12 @@ export default function NotesIndex() {
                     </p>
                 </div>
                 <div>
-                    <Button className="gap-1" onClick={openCreateDialog}>
+                    <Button
+                        className="hidden gap-2 md:flex"
+                        onClick={openCreateDialog}
+                    >
                         <Plus className="px-0" />
-                        Add <span className="hidden md:block">Note</span>
+                        <p>Add Note</p>
                     </Button>
                 </div>
             </div>

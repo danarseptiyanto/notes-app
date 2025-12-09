@@ -30,7 +30,7 @@ export function NavMain({ items }) {
                     <SidebarMenuItem>
                         <CollapsibleTrigger asChild>
                             <SidebarMenuButton tooltip="Dashboard">
-                                <Funnel />
+                                <Funnel className="text-primary" />
                                 <span>Filter Categories</span>
                                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                             </SidebarMenuButton>
@@ -52,9 +52,9 @@ export function NavMain({ items }) {
                                 <SidebarMenuSubItem>
                                     <SidebarMenuSubButton asChild>
                                         <Link href="/categories">
-                                            <span className="flex items-center gap-1 font-semibold">
+                                            <span className="flex items-center gap-1 font-semibold text-primary">
                                                 {/* <CirclePlus className="size-3" /> */}
-                                                Add Category +
+                                                More Category
                                             </span>
                                         </Link>
                                     </SidebarMenuSubButton>

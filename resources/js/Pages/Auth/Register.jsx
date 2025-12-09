@@ -76,7 +76,7 @@ export default function Register() {
                                     />
                                 </svg>
                             </div>
-                            Danar&Co.
+                            danarx.com
                         </div>
                         <ThemeToggle />
                     </div>

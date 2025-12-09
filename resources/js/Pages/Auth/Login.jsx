@@ -77,7 +77,7 @@ export default function Login({ status, canResetPassword }) {
                                     />
                                 </svg>
                             </div>
-                            Danar&Co.
+                            danarx.com
                         </div>
                         <ThemeToggle />
                     </div>
@@ -197,11 +197,14 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
                 <div className="relative hidden bg-muted lg:block">
-                    {/* <img
-                        src="https://ui.shadcn.com/placeholder.svg"
-                        alt="Image"
-                        className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                    /> */}
+                    <img
+                        src="/img/thumb-auth-light.webp"
+                        className="absolute inset-0 block h-full w-full object-cover dark:hidden"
+                    />
+                    <img
+                        src="/img/thumb-auth-dark.webp"
+                        className="absolute inset-0 hidden h-full w-full object-cover dark:block"
+                    />
                 </div>
             </div>
         </>

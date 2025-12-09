@@ -59,7 +59,7 @@ function NoteForm({ form, categories, editingNote, onSubmit, className }) {
                         el.style.height = "auto";
                         el.style.height = el.scrollHeight + "px";
                     }}
-                    className="min-h-44 md:min-h-64"
+                    className="min-h-44 text-sm md:min-h-64 md:text-base"
                     placeholder="Write your note..."
                 />
             </div>
@@ -85,13 +85,20 @@ function NoteForm({ form, categories, editingNote, onSubmit, className }) {
                 </Select>
             </div>
 
-            <Button
-                type="submit"
-                disabled={form.processing}
-                className="mt-4 w-full"
-            >
-                {editingNote ? "Save Changes" : "Add Note"}
-            </Button>
+            <div className="flex gap-3 pb-5 pt-1 md:pb-0">
+                <Button
+                    type="submit"
+                    disabled={form.processing}
+                    className="w-full"
+                >
+                    {editingNote ? "Save Changes" : "Add Note"}
+                </Button>
+                <DrawerClose asChild>
+                    <Button className="w-full" variant="outline">
+                        Cancel
+                    </Button>
+                </DrawerClose>
+            </div>
         </form>
     );
 }
@@ -102,8 +109,8 @@ export default function NotesIndex() {
     const [editingNote, setEditingNote] = useState(null);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
-    const pinnedNotes = notes.filter(note => note.pinned);
-    const unpinnedNotes = notes.filter(note => !note.pinned);
+    const pinnedNotes = notes.filter((note) => note.pinned);
+    const unpinnedNotes = notes.filter((note) => !note.pinned);
 
     const breakpointColumnsObj = {
         default: 4, // 3 columns desktop
@@ -196,7 +203,11 @@ export default function NotesIndex() {
                         className="size-8 opacity-0 transition-opacity group-hover:opacity-100"
                         onClick={() => router.put(`/notes/${note.id}/pin`)}
                     >
-                        {note.pinned ? <PinOff className="size-4" /> : <Pin className="size-4" />}
+                        {note.pinned ? (
+                            <PinOff className="size-4" />
+                        ) : (
+                            <Pin className="size-4" />
+                        )}
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -210,20 +221,14 @@ export default function NotesIndex() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuItem>
-                                <button
-                                    onClick={() =>
-                                        openEditDialog(note)
-                                    }
-                                >
+                                <button onClick={() => openEditDialog(note)}>
                                     Edit Note
                                 </button>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <button
                                     onClick={() =>
-                                        router.put(
-                                            `/notes/${note.id}/archive`,
-                                        )
+                                        router.put(`/notes/${note.id}/archive`)
                                     }
                                 >
                                     Archive
@@ -297,7 +302,7 @@ export default function NotesIndex() {
             ) : (
                 <Drawer open={open} onOpenChange={setOpen}>
                     <DrawerContent>
-                        <DrawerHeader className="text-left">
+                        {/* <DrawerHeader className="text-left">
                             <DrawerTitle>
                                 {editingNote ? "Edit Note" : "Add Note"}
                             </DrawerTitle>
@@ -306,7 +311,7 @@ export default function NotesIndex() {
                                     ? "Edit the note or the category attached to it"
                                     : "Add new note and the category to which it belongs"}
                             </DrawerDescription>
-                        </DrawerHeader>
+                        </DrawerHeader> */}
                         <NoteForm
                             form={form}
                             categories={categories}
@@ -314,11 +319,6 @@ export default function NotesIndex() {
                             onSubmit={submit}
                             className="space-y-2 px-4"
                         />
-                        <DrawerFooter className="pt-2">
-                            <DrawerClose asChild>
-                                <Button variant="outline">Cancel</Button>
-                            </DrawerClose>
-                        </DrawerFooter>
                     </DrawerContent>
                 </Drawer>
             )}
@@ -333,7 +333,9 @@ export default function NotesIndex() {
                 <div className="mt-4 space-y-8">
                     {pinnedNotes.length > 0 && (
                         <div>
-                            <h3 className="text-lg font-semibold mb-4">Pinned Notes</h3>
+                            <h3 className="mb-4 text-lg font-semibold">
+                                Pinned Notes
+                            </h3>
                             <Masonry
                                 breakpointCols={breakpointColumnsObj}
                                 className="flex gap-4"
@@ -345,7 +347,9 @@ export default function NotesIndex() {
                     )}
                     {unpinnedNotes.length > 0 && (
                         <div>
-                            <h3 className="text-lg font-semibold mb-4">Notes</h3>
+                            <h3 className="mb-4 text-lg font-semibold">
+                                Notes
+                            </h3>
                             <Masonry
                                 breakpointCols={breakpointColumnsObj}
                                 className="flex gap-4"

@@ -2,25 +2,25 @@ import React, { useState, useEffect } from "react";
 import { router } from "@inertiajs/react";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Pin, PinOff, Ellipsis } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 import {
     Drawer,
     DrawerContent,
     DrawerHeader,
     DrawerTitle,
-} from "@/components/ui/drawer";
+} from "@/Components/ui/drawer";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/Components/ui/dropdown-menu";
 
 export default function NoteDetailModal({ note, open, onOpenChange, onEdit }) {
     const isDesktop = useMediaQuery("(min-width: 768px)");

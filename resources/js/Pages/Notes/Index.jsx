@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { router, useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/Components/ui/textarea";
+import { Label } from "@/Components/ui/label";
 import { Plus, Ellipsis, Pin, PinOff } from "lucide-react";
-import NoteDetailModal from "@/components/NoteDetailModal";
+import NoteDetailModal from "@/Components/NoteDetailModal";
 import Masonry from "react-masonry-css";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
@@ -13,7 +13,7 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/Components/ui/dropdown-menu";
 
 import {
     Select,
@@ -21,16 +21,16 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@/Components/ui/select";
+import { Card } from "@/Components/ui/card";
+import { Button } from "@/Components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/Components/ui/dialog";
 import {
     Drawer,
     DrawerClose,
@@ -39,7 +39,7 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerTitle,
-} from "@/components/ui/drawer";
+} from "@/Components/ui/drawer";
 
 // Reusable form component for both Dialog and Drawer
 function NoteForm({ form, categories, editingNote, onSubmit, className }) {

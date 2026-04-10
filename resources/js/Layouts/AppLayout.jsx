@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/Components/app-sidebar";
 import { Head, router } from "@inertiajs/react";
 import {
     Breadcrumb,
@@ -6,17 +6,17 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
+} from "@/Components/ui/breadcrumb";
+import { Separator } from "@/Components/ui/separator";
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
-} from "@/components/ui/sidebar";
+} from "@/Components/ui/sidebar";
 import ThemeToggle from "@/Components/ThemeToggle";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/Components/ui/input";
 import { Search, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 
 import { Toaster, toast } from "sonner";
 import { useEffect, useState, useRef } from "react";

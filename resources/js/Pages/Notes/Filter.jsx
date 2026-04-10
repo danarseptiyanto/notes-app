@@ -1,17 +1,17 @@
 import React from "react";
 import { usePage, router } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/Components/ui/card";
+import { Button } from "@/Components/ui/button";
 import { Ellipsis, Pin, PinOff } from "lucide-react";
-import NoteDetailModal from "@/components/NoteDetailModal";
+import NoteDetailModal from "@/Components/NoteDetailModal";
 import Masonry from "react-masonry-css";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/Components/ui/dropdown-menu";
 
 export default function CategoryShow() {
     const { category, notes, search } = usePage().props;

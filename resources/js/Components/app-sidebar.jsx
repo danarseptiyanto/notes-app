@@ -4,19 +4,19 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-} from "@/components/ui/sidebar";
+} from "@/Components/ui/sidebar";
 import { Bot, NotebookPen, FileSymlink, ArchiveRestore } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
-import { NavUser } from "@/components/nav-user";
+import { NavMain } from "@/Components/nav-main";
+import { NavProjects } from "@/Components/nav-projects";
+import { NavUser } from "@/Components/nav-user";
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
     SidebarRail,
-} from "@/components/ui/sidebar";
+} from "@/Components/ui/sidebar";
 import { Link } from "@inertiajs/react";
 
 // This is sample data.

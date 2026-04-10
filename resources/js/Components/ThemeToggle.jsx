@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 
 // Utility: read preferred theme (localStorage -> system)
 function getPreferredTheme() {

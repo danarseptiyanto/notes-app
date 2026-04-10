@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { router, useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import { Plus, PencilLine, Trash2 } from "lucide-react";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/Components/ui/table";
 import {
     Dialog,
     DialogContent,
     DialogFooter,
     DialogHeader,
     DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "@/Components/ui/dialog";
+import { Input } from "@/Components/ui/input";
 
 export default function CategoriesIndex() {
     const { categories, flash } = usePage().props;

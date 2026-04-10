@@ -1,7 +1,7 @@
 import React from "react";
 import AppLayout from "@/Layouts/AppLayout";
 import { usePage, router } from "@inertiajs/react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 import {
     Table,
     TableBody,
@@ -9,7 +9,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table";
+} from "@/Components/ui/table";
 import { ArchiveRestore, ArchiveX, Trash2 } from "lucide-react";
 
 export default function IndexArchive() {

@@ -6,7 +6,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     useSidebar,
-} from "@/components/ui/sidebar";
+} from "@/Components/ui/sidebar";
 import { Link } from "@inertiajs/react";
 
 export function NavProjects({ projects }) {
